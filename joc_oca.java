@@ -42,7 +42,7 @@ public class joc_oca {
 
             do {
                 tornarATirar = false;
-                int daus[] = tirarDaus();
+                int daus[] = tirarDaus(posicio[jugador]);
                 int suma = daus[0] + daus[1];
 
                 System.out.println("Has tret un " + daus[0] + " i un " + daus[1] + ", sumant " + suma);
@@ -51,12 +51,13 @@ public class joc_oca {
 
                 if (posicio[jugador] > 63) {
                     posicio[jugador] = 63 - (posicio[jugador] - 63);
-                    
+                    System.out.println("Has superat la casella 63! Retrocedeixes a la casella " + posicio[jugador]);
+
                 }
 
-                System.out.println("Has superat la casella 63! Retrocedeixes a la casella " + posicio[jugador]);
+                tornarATirar = gestionarCasella(jugador, posicio, penalitzacio);
 
-                tornarATirar = gestionarCasella();
+                System.out.println("Estàs a la casella " + posicio[jugador]);
 
                 if(posicio[jugador] == 63) {
                     guanyador = true;
@@ -78,7 +79,7 @@ public class joc_oca {
                     System.out.println("Introdueix el nombre de jugadors (2-4): ");
                     n = Integer.parseInt(sc.nextLine());
 
-                    if (n < 2 || n >4) {
+                    if (n >= 2 && n <= 4) {
                         correcte = true;
                     } else {
                         System.out.println("Error: El nombre de jugadors ha d'estar entre 2 i 4.");
@@ -108,11 +109,74 @@ public class joc_oca {
 
         }
 
-        public int[] tirarDaus() {
+        public int[] tirarDaus(int posicioActual) {
+            int dau1 = rnd.nextInt(6) + 1;
+            int dau2 = 0;
 
+            if (posicioActual < 60) {
+                dau2 = rnd.nextInt(6) + 1;
+            }
+
+            return new int[] {dau1, dau2};
         }
 
-        public boolean gestionarCasella() {
-            
+        public boolean gestionarCasella(int j, int[] posicio, int[] penalitzacio) {
+
+            int casella = posicio[j];
+
+            //Oques
+            int[] oques = {5, 9, 14, 18, 23, 27, 32, 36, 41, 45, 50, 54, 59};
+            for (int i = 0; i < oques.length - 1; i++) {
+                if (casella == oques[i]) {
+                    System.out.println("Oca. De oca en oca i tiro perquè hem toca");
+                    posicio[j] = oques[i + 1];
+                    System.out.println("Avances a la casella " + posicio[j]);
+                    return true;    
+                }
+            }
+            //Ponts
+            if (casella == 6) {
+                posicio[j] = 12;
+                System.out.println("Has caigut al pont! Avances a la casella " + posicio[j]);
+                return true;
+            }
+            else if (casella == 12) {
+                posicio[j] = 6;
+                System.out.println("Has caigut al pont! Retrocedeixes a la casella " + posicio[j]);
+                return false;
+            }
+
+            //Fonda
+            if (casella == 19) {
+                penalitzacio[j] = 1;
+                System.out.println("Has caigut a la fonda! Perds 1 torn.");
+            }
+
+            //Pou
+            if (casella == 31) {
+                penalitzacio[j] = 2;
+                System.out.println("Has caigut al pou! Perds 2 torns.");
+            }
+
+            //Laberint
+            if (casella == 42) {
+                posicio[j] = 39;
+                System.out.println("Has caigut al laberint! Retrocedeixes a la casella " + posicio[j]);
+            }
+
+            //Presó
+            if (casella == 52) {
+                penalitzacio[j] = 3;
+                System.out.println("Has caigut a la presó! Perds 3 torns.");
+            }
+
+            //Mort
+            if (casella == 58) {
+                posicio[j] = 0;
+                System.out.println("Has caigut a la mort! Tornes a la casella " + posicio[j]);
+            }
+
+            return false;
+
         }
     }
