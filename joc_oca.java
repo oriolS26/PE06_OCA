@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class joc_oca {
-    
+
     Scanner sc = new Scanner(System.in);
     Random rnd = new Random();
 
@@ -88,6 +88,10 @@ public class joc_oca {
                 catch (NumberFormatException e) {
                     System.out.println("Error: Si us plau, introdueix un nombre vàlid.");
                 } 
+
+                catch (Exception e) {
+                    System.out.println("Error inesperat: " + e.getMessage());
+                }
             }while(!correcte);
 
             return n;
