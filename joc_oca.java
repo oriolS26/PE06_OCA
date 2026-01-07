@@ -18,7 +18,7 @@ public class joc_oca {
         int[] posicio = new int[numJugadors];
         int[] penalitzacio = new int [numJugadors];
 
-        demanarNumJugadors();
+        demanarNomsJugadors(noms, posicio, penalitzacio);
 
         boolean guanyador = false;
         int torn = 0;
@@ -98,7 +98,13 @@ public class joc_oca {
 
         }
 
-        public void demanarNomsJugadors() {
+        public void demanarNomsJugadors(String[] noms, int[] posicio, int[] penalitzacio) {
+            for (int i = 0; i < noms.length; i++) {
+                System.out.println("Introdueix el nom del jugador " + (i + 1) + ": ");
+                noms[i] = sc.nextLine();
+                posicio[i] = 0;
+                penalitzacio[i] = 0;
+            }
 
         }
 
