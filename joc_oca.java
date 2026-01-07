@@ -2,13 +2,15 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class joc_oca {
+    
+    Scanner sc = new Scanner(System.in);
+    Random rnd = new Random();
+
     public static void main(String[] args) {
         joc_oca p = new joc_oca();
         p.principal();
     }
     public void principal() {
-        Scanner sc = new Scanner(System.in);
-        Random rnd = new Random();
 
         int numJugadors = demanarNumJugadors();
         
@@ -68,6 +70,27 @@ public class joc_oca {
         }
 
         public int demanarNumJugadors() {
+            int n = 0;
+            boolean correcte = false;
+
+            do {
+                try {
+                    System.out.println("Introdueix el nombre de jugadors (2-4): ");
+                    n = Integer.parseInt(sc.nextLine());
+
+                    if (n < 2 || n >4) {
+                        correcte = true;
+                    } else {
+                        System.out.println("Error: El nombre de jugadors ha d'estar entre 2 i 4.");
+                    }
+                }
+
+                catch (NumberFormatException e) {
+                    System.out.println("Error: Si us plau, introdueix un nombre vàlid.");
+                } 
+            }while(!correcte);
+
+            return n;
 
         }
 
